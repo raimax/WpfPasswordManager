@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace PasswordManager
@@ -9,15 +9,22 @@ namespace PasswordManager
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Account> Accounts { get; set; } = new();
+        public List<Account> Accounts { get; set; } = new();
+        private readonly AccountService _accountService = new();
 
         public MainWindow()
         {
             InitializeComponent();
             LoadAccounts();
+            RefreshAccountList();
         }
 
         private void LoadAccounts()
+        {
+            Accounts = _accountService.GetAccounts();
+        }
+
+        private void RefreshAccountList()
         {
             PanelAccountList.Children.Clear();
 
@@ -46,13 +53,13 @@ namespace PasswordManager
 
         private void AddAccountWindow_FormSubmited(object? sender, AddAccountEventArgs e)
         {
-            AddNewAccount(new Account(e.AppName, e.Username, e.Password, e.Url, e.Image));
-            LoadAccounts();
+            AddNewAccount(new Account(e.AppName, e.Username, e.Password, e.Url, e.ImagePath));
+            RefreshAccountList();
         }
 
         private void AddNewAccount(Account account)
         {
-            Accounts.Add(new Account(account.AppName, account.Username, account.Password, account.Url, account.Image));
+            Accounts.Add(new Account(account.AppName, account.Username, account.Password, account.Url, account.ImagePath));
         }
     }
 }

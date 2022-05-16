@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Media.Imaging;
 
 namespace PasswordManager
 {
@@ -9,15 +8,15 @@ namespace PasswordManager
         public string Username { get; private set; }
         public string Password { get; private set; }
         public string Url { get; private set; }
-        public BitmapImage Image { get; private set; }
+        public string ImagePath { get; private set; }
 
-        public AddAccountEventArgs(string appName, string username, string password, string url, BitmapImage image)
+        public AddAccountEventArgs(string appName, string username, string password, string url, string imagePath)
         {
             AppName = appName;
             Username = username;
             Password = password;
             Url = url;
-            Image = image;
+            ImagePath = imagePath;
         }
     }
 }

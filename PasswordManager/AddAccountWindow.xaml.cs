@@ -11,7 +11,9 @@ namespace PasswordManager
     public partial class AddAccountWindow : Window
     {
         public event EventHandler<AddAccountEventArgs>? FormSubmited;
-        private BitmapImage? UploadedImage;
+        private string ImageName;
+        private string ImagePath;
+        private readonly AccountService _accountService = new();
 
         public AddAccountWindow()
         {
@@ -27,17 +29,18 @@ namespace PasswordManager
             {
                 LabelAddAccountImage.Content = fileDialog.SafeFileName;
                 LabelAddAccountImage.Visibility = Visibility.Visible;
-                UploadedImage = new BitmapImage(new Uri(fileDialog.FileName));
-                AddAccountImage.Source = UploadedImage;
+                ImageName = fileDialog.SafeFileName;
+                ImagePath = fileDialog.FileName;
+                AddAccountImage.Source = new BitmapImage(new Uri(fileDialog.FileName));
             }
         }
 
         public void OnFormSubmit()
         {
-            if (FormSubmited != null)
-            {
-                FormSubmited(this, new AddAccountEventArgs(LabelAppName.Text, LabelUsername.Text, LabelPassword.Text, LabelUrl.Text, UploadedImage));
-            }
+            FileService.SaveFile(ImagePath, ImageName);
+            FormSubmited?.Invoke(this, new AddAccountEventArgs(LabelAppName.Text, LabelUsername.Text, LabelPassword.Text, LabelUrl.Text, ImageName));
+
+            _accountService.AddAccount(new Account(LabelAppName.Text, LabelUsername.Text, LabelPassword.Text, LabelUrl.Text, ImageName));
 
             Close();
         }
