@@ -16,7 +16,7 @@
             <Label Content="Password Manager" FontWeight="Bold" FontSize="18" />
             <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                 <Label Name="LabelUsername" Content="Username" VerticalContentAlignment="Center" />
-                <Button Name="ButtonLogout" Click="ButtonLogout_Click" Content="Logout" Cursor="Hand" BorderThickness="2" Padding="10 0 10 0" Height="25" Background="#FFE81123" BorderBrush="#FFE81123" Foreground="#FFFEFEFE" />
+                <Button Name="ButtonLogout" Click="ButtonLogout_Click" Content="Logout" Cursor="Hand" BorderThickness="0" Padding="10 0 10 0" Height="25" Background="#FFE81123" BorderBrush="#FFE81123" Foreground="#FFFEFEFE" />
             </StackPanel>
         </Grid>
         <Grid DockPanel.Dock="Left" MinWidth="150" Margin="10">
@@ -29,7 +29,7 @@
                 <StackPanel Name="PanelAccountList" Margin="0 10 0 0" />
             </ScrollViewer>
         </Grid>
-        <Grid Margin="10">
+        <Grid Name="AccountInformationGrid" Margin="10">
 
         </Grid>
     </DockPanel>

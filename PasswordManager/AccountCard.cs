@@ -6,9 +6,10 @@ using System.Windows.Media.Imaging;
 
 namespace PasswordManager
 {
-    internal class AccountCard : StackPanel
+    internal class AccountCard : Button
     {
         public Account Account { get; set; }
+        public event EventHandler<AccountCardEventArgs>? CardClicked;
 
         public AccountCard(Account account)
         {
@@ -18,37 +19,56 @@ namespace PasswordManager
 
         private void Init()
         {
-            Orientation = Orientation.Horizontal;
-            VerticalAlignment = VerticalAlignment.Center;
-            Height = 30;
+            Click += AccountCard_Click;
 
-            MouseEnter += AccountCard_MouseEnter;
-            MouseLeave += AccountCard_MouseLeave;
+            HorizontalContentAlignment = HorizontalAlignment.Left;
+            Padding = new Thickness(0, 5, 0, 5);
+            Height = 30;
+            BorderThickness = new Thickness(0);
+            Background = ColorHelper.GetColor("#efefef");
+
+            ColumnDefinition columnAuto = new()
+            {
+                Width = GridLength.Auto
+            };
+            ColumnDefinition columnStar = new()
+            {
+                Width = new GridLength(1, GridUnitType.Star)
+            };
+
+            Grid grid = new();
+            grid.ColumnDefinitions.Add(columnAuto);
+            grid.ColumnDefinitions.Add(columnStar);
 
             Image image = new()
             {
-                Source = new BitmapImage(new Uri(@$"{Directory.GetCurrentDirectory()}/images/{Account.ImagePath}")),
-                Margin = new Thickness(0, 0, 10, 0),
-                Height = 25,
-                Width = 25
+                Source = new BitmapImage(new Uri($"{Directory.GetCurrentDirectory()}/images/{Account.ImagePath}")),
+                Margin = new Thickness(10, 0, 10, 0)
             };
+            image.SetValue(Grid.ColumnProperty, 0);
 
-            Label label = new()
+            TextBlock textBlock = new()
             {
-                Content = Account.AppName
+                Text = Account.AppName,
+                VerticalAlignment = VerticalAlignment.Center
+
             };
-            Children.Add(image);
-            Children.Add(label);
+            textBlock.SetValue(Grid.ColumnProperty, 1);
+
+            grid.Children.Add(image);
+            grid.Children.Add(textBlock);
+
+            AddChild(grid);
         }
 
-        private void AccountCard_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void OnCardClick()
         {
-            Background = null;
+            CardClicked?.Invoke(this, new AccountCardEventArgs(Account));
         }
 
-        private void AccountCard_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void AccountCard_Click(object sender, RoutedEventArgs e)
         {
-            Background = ColorHelper.GetColor("#fff");
+            OnCardClick();
         }
     }
 }

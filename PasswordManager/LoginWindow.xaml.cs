@@ -11,6 +11,7 @@ namespace PasswordManager
         public LoginWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void Window_Closed(object sender, EventArgs e)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using PasswordGenerator;
 using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -18,6 +19,7 @@ namespace PasswordManager
         public AddAccountWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void ButtonBrowseForImage_Click(object sender, RoutedEventArgs e)
@@ -48,6 +50,12 @@ namespace PasswordManager
         private void ButtonAddAccount_Click(object sender, RoutedEventArgs e)
         {
             OnFormSubmit();
+        }
+
+        private void GeneratePasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            var pwd = new Password();
+            LabelPassword.Text = pwd.Next();
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿<Page x:Class="PasswordManager.RegisterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PasswordManager"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="400"
+      Title="RegisterPage">
+
+    <Grid Background="#efefef">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 -10 0 0">
+            <Image Height="100" Source="icons\register.png" />
+            <Label Content="Password Manager Register" FontWeight="Bold" FontSize="18" />
+            <Border Name="SuccessMessage" Visibility="Hidden" Padding="10 3 10 3" CornerRadius="4" BorderBrush="#FF3DA21A" BorderThickness="1" Background="#FF2AFD00">
+                <TextBlock HorizontalAlignment="Center" Text="Registration Successful" Foreground="Black" />
+            </Border>
+            <Label Padding="0 5 0 5" Content="Username" />
+            <TextBox Name="RegisterUsernameInput" Padding="4" />
+            <Label Padding="0 5 0 5" Content="Password" />
+            <TextBox Name="RegisterPasswordInput" Padding="4" />
+            <Label Padding="0 5 0 5" Content="Repeat Password" />
+            <TextBox Name="RegisterRepeatPasswordInput" Padding="4" />
+            <Button Name="RegisterButton" Click="RegisterButton_Click" Content="Register" Cursor="Hand" Margin="0 10 0 10" Background="#FF3454D1" Foreground="White" Padding="0 5 0 5" BorderThickness="0" Height="26" />
+            <TextBlock HorizontalAlignment="Center">
+                <Hyperlink NavigateUri="LoginPage.xaml">
+                    Login
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -11,10 +11,17 @@ namespace PasswordManager
     {
         public List<Account> Accounts { get; set; } = new();
         private readonly AccountService _accountService = new();
+        public AccountInformationPanel AccountInformationPanel { get; set; } = new();
 
         public MainWindow()
         {
             InitializeComponent();
+            Init();
+        }
+
+        private void Init()
+        {
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             LoadAccounts();
             RefreshAccountList();
         }
@@ -30,8 +37,18 @@ namespace PasswordManager
 
             foreach (Account account in Accounts)
             {
-                PanelAccountList.Children.Add(new AccountCard(account));
+                AccountCard accountCard = new(account);
+                accountCard.CardClicked += AccountCard_CardClicked;
+                PanelAccountList.Children.Add(accountCard);
             }
+        }
+
+        private void AccountCard_CardClicked(object? sender, AccountCardEventArgs e)
+        {
+            AccountInformationPanel.Account = e.Account;
+            AccountInformationGrid.Children.Clear();
+            AccountInformationGrid.Children.Add(AccountInformationPanel);
+            AccountInformationPanel.Update();
         }
 
         private void ButtonLogout_Click(object sender, RoutedEventArgs e)
