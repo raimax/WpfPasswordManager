@@ -9,6 +9,13 @@ namespace PasswordManager
     public class AccountInformationPanel : StackPanel
     {
         public Account Account { get; set; }
+        private readonly AccountService _accountService = new();
+        public event EventHandler<EventArgs>? AccountUpdated;
+        public event EventHandler<EventArgs>? AccountDeleted;
+
+        public TextBox UsernameTextBox { get; set; }
+        public TextBox PasswordTextBox { get; set; }
+        public TextBox UrlTextBox { get; set; }
 
         public AccountInformationPanel()
         {
@@ -39,6 +46,7 @@ namespace PasswordManager
             };
 
             TextBox usernameTextBox = CreateTextBox(Account.Username);
+            UsernameTextBox = usernameTextBox;
 
             Label passwordLabel = new()
             {
@@ -47,6 +55,7 @@ namespace PasswordManager
 
             TextBox passwordTextBox = CreateTextBox(
                 Account.IsPasswordHidden ? "************" : Account.Password, Account.IsPasswordHidden);
+            PasswordTextBox = passwordTextBox;
 
             Label urlLabel = new()
             {
@@ -54,6 +63,7 @@ namespace PasswordManager
             };
 
             TextBox urlTextBox = CreateTextBox(Account.Url);
+            UrlTextBox = urlTextBox;
 
             string toggleImage = Account.IsPasswordHidden ? "eye.png" : "hidden.png";
             string copyIcon = "copy.png";
@@ -114,10 +124,32 @@ namespace PasswordManager
                 Margin = new Thickness(0, -25, -276, 0),
             };
 
+            Button updateAccountButton = new()
+            {
+                Height = 26,
+                Content = "Update",
+                BorderThickness = new Thickness(0),
+                Background = ColorHelper.GetColor("#FF3454D1"),
+                Foreground = ColorHelper.GetColor("#fff"),
+                Margin = new Thickness(0, 20, 0, 0)
+            };
+
+            Button deleteAccountButton = new()
+            {
+                Height = 26,
+                Content = "Delete",
+                BorderThickness = new Thickness(0),
+                Background = ColorHelper.GetColor("#FFE81123"),
+                Foreground = ColorHelper.GetColor("#fff"),
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+
             togglePasswordButton.Click += TogglePasswordButton_Click;
             copyUsernameButton.Click += CopyUsernameButton_Click;
             copyPasswordButton.Click += CopyPasswordButton_Click;
             copyUrlButton.Click += CopyUrlButton_Click;
+            updateAccountButton.Click += UpdateAccountButton_Click;
+            deleteAccountButton.Click += DeleteAccountButton_Click;
 
             Children.Add(image);
             Children.Add(appNameLabel);
@@ -131,6 +163,35 @@ namespace PasswordManager
             Children.Add(urlLabel);
             Children.Add(urlTextBox);
             Children.Add(copyUrlButton);
+            Children.Add(updateAccountButton);
+            Children.Add(deleteAccountButton);
+        }
+
+        private void DeleteAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _accountService.RemoveAccount(Account);
+                AccountDeleted?.Invoke(this, new EventArgs());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void UpdateAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _accountService.UpdateAccount(Account,
+                    new Account("", UsernameTextBox.Text, Account.IsPasswordHidden ? Account.Password : PasswordTextBox.Text, UrlTextBox.Text, ""));
+                AccountUpdated?.Invoke(this, new EventArgs());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void CopyUrlButton_Click(object sender, RoutedEventArgs e)

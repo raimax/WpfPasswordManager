@@ -7,22 +7,23 @@
         mc:Ignorable="d"
         Title="AddAccountWindow" Height="500" Width="400">
     <Grid Background="#EFEFEF">
-        <ScrollViewer>
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="200">
+        <ScrollViewer HorizontalAlignment="Center" VerticalAlignment="Center" VerticalScrollBarVisibility="Hidden">
+            <StackPanel Width="250">
+                <Image Height="50" Source="icons/add.png" />
                 <Label Content="App Name" Padding="0 5 0 5" />
                 <TextBox Name="LabelAppName" Padding="4" />
                 <Label Content="Username" Padding="0 5 0 5" />
                 <TextBox Name="LabelUsername" Padding="4" />
                 <Label Content="Password" Padding="0 5 0 5" />
                 <TextBox Name="LabelPassword" Padding="4" />
-                <Button Name="GeneratePasswordButton" Click="GeneratePasswordButton_Click" Width="24" Height="24" Margin="0 -26 -176 0" BorderThickness="0" Background="{x:Null}">
+                <Button Name="GeneratePasswordButton" Click="GeneratePasswordButton_Click" Width="24" Height="24" Margin="0 -26 -226 0" BorderThickness="0" Background="{x:Null}">
                     <Image Source="icons/dice.png" />
                 </Button>
                 <Label Content="Url" Padding="0 5 0 5" />
                 <TextBox Name="LabelUrl" Padding="4" />
                 <GroupBox x:Name="GroupBoxImage" Header="Image">
                     <StackPanel>
-                        <Image Height="50" Name="AddAccountImage" />
+                        <Image Source="icons/picture.png" Height="50" Name="AddAccountImage" />
                         <Label Name="LabelAddAccountImage" Visibility="Hidden" />
                         <Button Name="ButtonBrowseForImage" Click="ButtonBrowseForImage_Click" Content="Browse" Margin="0 10 0 0" />
                     </StackPanel>

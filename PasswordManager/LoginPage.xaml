@@ -15,7 +15,7 @@
             <Label Padding="0 5 0 5" Content="Username" />
             <TextBox Name="LoginUsernameInput" Padding="4" />
             <Label Padding="0 5 0 5" Content="Password" />
-            <TextBox Name="LoginPasswordInput" Padding="4" />
+            <PasswordBox Name="LoginPasswordInput" Padding="4" />
             <Button Name="LoginButton" Click="LoginButton_Click" Content="Login" Cursor="Hand" Margin="0 10 0 10" Background="#FF3454D1" Foreground="White" Padding="0 5 0 5" BorderThickness="0" Height="26" />
             <TextBlock HorizontalAlignment="Center">
                 <Hyperlink NavigateUri="RegisterPage.xaml">

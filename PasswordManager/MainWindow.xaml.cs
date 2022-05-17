@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 
 namespace PasswordManager
@@ -24,11 +25,35 @@ namespace PasswordManager
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             LoadAccounts();
             RefreshAccountList();
+            AccountInformationPanel.AccountUpdated += AccountInformationPanel_AccountUpdated;
+            AccountInformationPanel.AccountDeleted += AccountInformationPanel_AccountDeleted;
+        }
+
+        private void AccountInformationPanel_AccountDeleted(object? sender, EventArgs e)
+        {
+            LoadAccounts();
+            RefreshAccountList();
+            AccountInformationPanel.Update();
+            AccountInformationGrid.Children.Clear();
+        }
+
+        private void AccountInformationPanel_AccountUpdated(object? sender, EventArgs e)
+        {
+            LoadAccounts();
+            RefreshAccountList();
+            //AccountInformationPanel.Update();
         }
 
         private void LoadAccounts()
         {
-            Accounts = _accountService.GetAccounts();
+            try
+            {
+                Accounts = _accountService.GetAccounts();
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show($"Can't load accounts, file {GlobalConfiguration.Auth.Username}.data.csv doesn't exist");
+            }
         }
 
         private void RefreshAccountList()
@@ -53,6 +78,13 @@ namespace PasswordManager
 
         private void ButtonLogout_Click(object sender, RoutedEventArgs e)
         {
+            string fileName = $"{GlobalConfiguration.Auth.Username}.data.csv";
+            if (File.Exists(fileName))
+            {
+                Encryption.EncryptFile(fileName, GlobalConfiguration.Auth.Password);
+                File.Delete(fileName);
+            }
+
             WindowManager.ChangeWindow(this, new LoginWindow());
         }
 

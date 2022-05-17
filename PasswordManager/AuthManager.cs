@@ -13,7 +13,7 @@ namespace PasswordManager
         {
             if (!File.Exists("encrypted." + auth.Username + ".csv")) throw new Exception("User doesn't exist");
 
-            FileInfo fs = Encryption.DecryptFile("encrypted." + auth.Username + ".csv", auth.Password);
+            Encryption.DecryptFile("encrypted." + auth.Username + ".csv", auth.Password);
 
             using var reader = new StreamReader(auth.Username + ".csv");
             using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);

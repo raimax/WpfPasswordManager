@@ -10,7 +10,7 @@ namespace PasswordManager
             return AES.EncryptString(key, text);
         }
 
-        public static string DectyptString(string encryptedText, string key)
+        public static string DectyptText(string encryptedText, string key)
         {
             return AES.DecryptString(key, encryptedText);
         }

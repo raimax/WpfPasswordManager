@@ -6,10 +6,7 @@ namespace PasswordManager
     {
         public static void SaveFile(string filePath, string fileName)
         {
-            if (File.Exists(filePath))
-            {
-                File.Copy(filePath, $"images/{fileName}", true);
-            }
+            File.Copy(filePath, $"images/{fileName}", true);
         }
     }
 }
